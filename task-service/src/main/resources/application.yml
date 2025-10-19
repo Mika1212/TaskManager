@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskmanager
     username: postgres
-    password:
+    password: 9957
     driver-class-name: org.postgresql.Driver
     jpa:
       hibernate:

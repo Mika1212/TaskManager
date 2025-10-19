@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8083
 
 spring:
   application:
-    name: user-service
+    name: project-service
   datasource:
     url: jdbc:postgresql://localhost:5432/taskmanager
     username: postgres
@@ -17,7 +17,7 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: user-service
+      group-id: project-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:

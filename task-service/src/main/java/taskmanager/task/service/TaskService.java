@@ -24,10 +24,10 @@ public class TaskService {
     }
 
     public TaskResponse createTask(CreateTaskRequest request) {
-        Task task = new Task(request.getTitle(), request.getDescription(), TaskStatus.NEW, request.getAssigneeId());
+        Task task = new Task(request.getTitle(), request.getDescription(), TaskStatus.NEW, request.getAssigneeId(), request.getProjectId());
         Task saved = taskRepository.save(task);
 
-        TaskCreatedEvent event = new TaskCreatedEvent(saved.getId(), saved.getAssigneeId(), saved.getStatus());
+        TaskCreatedEvent event = new TaskCreatedEvent(saved.getId(), saved.getAssigneeId(), saved.getStatus(), saved.getProjectId());
         kafkaTemplate.send("task_created", event);
 
         return new TaskResponse(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getStatus(), saved.getAssigneeId());
