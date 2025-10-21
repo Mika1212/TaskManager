@@ -11,7 +11,7 @@ public class UserKafkaConsumerConfig extends AbstractKafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, UserCreatedEvent> userCreatedConsumerFactory() {
-        return createConsumerFactory("task-service", UserCreatedEvent.class);
+        return createConsumerFactory("task-service", "taskmanager.common.event.UserCreatedEvent");
     }
 
     @Bean

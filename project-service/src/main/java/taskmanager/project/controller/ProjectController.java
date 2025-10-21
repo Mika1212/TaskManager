@@ -3,7 +3,7 @@ package taskmanager.project.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import taskmanager.project.dto.CreateProjectRequest;
-import taskmanager.project.model.Project;
+import taskmanager.project.dto.ProjectResponse;
 import taskmanager.project.service.ProjectService;
 
 import java.util.List;
@@ -15,12 +15,12 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    public Project create(@RequestBody CreateProjectRequest request) {
-        return projectService.createProject(request.getOwnerId(), request.getName(), request.getDescription());
+    public ProjectResponse create(@RequestBody CreateProjectRequest request) {
+        return projectService.createProject(request);
     }
 
     @GetMapping("owner/{ownerId}")
-    public List<Project> getByOwner(@PathVariable Long ownerId) {
+    public List<ProjectResponse> getByOwner(@PathVariable Long ownerId) {
         return projectService.getProjectOwnerId(ownerId);
     }
 }

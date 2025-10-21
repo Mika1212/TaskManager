@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "projects")
 @Data
 @NoArgsConstructor
+@Table(name = "projects")
 public class Project {
 
     @Id
@@ -23,4 +23,12 @@ public class Project {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Project(String name, String description, Long ownerId) {
+        this.name = name;
+        this.description = description;
+        this.ownerId = ownerId;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }
