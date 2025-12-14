@@ -20,6 +20,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.kafka:spring-kafka")
 
+    implementation("org.liquibase:liquibase-core:4.25.0")
+    implementation("org.postgresql:postgresql:42.7.2")
+
     runtimeOnly("org.postgresql:postgresql")
 
     compileOnly("org.projectlombok:lombok:1.18.30")

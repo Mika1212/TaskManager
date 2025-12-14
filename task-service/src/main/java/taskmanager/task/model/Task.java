@@ -3,6 +3,8 @@ package taskmanager.task.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +27,11 @@ public class Task {
     private Long assigneeId;
     private Long projectId;
 
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     public Task(String title, String description, TaskStatus status, Long assigneeId) {
@@ -38,7 +44,5 @@ public class Task {
         this.status = status;
         this.assigneeId = assigneeId;
         this.projectId = projectId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 }

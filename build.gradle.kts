@@ -47,3 +47,11 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+tasks.register("runAll") {
+    dependsOn(
+        ":user-service:bootRun",
+        ":task-service:bootRun",
+        ":project-service:bootRun"
+    )
+}
