@@ -4,7 +4,7 @@ plugins {
     java
 }
 
-group = "org.mika1212.task"
+group = "org.mika1212.project"
 version = "0.0.1-SNAPSHOT"
 
 java {

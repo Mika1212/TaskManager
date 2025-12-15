@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+        file: classpath:db/changelog/tasks/001-create_tasks_table.yaml
+  - include:
+      file: classpath:db/changelog/users/001-create_users_table.yaml
+  - include:
+      file: classpath:db/changelog/projects/001-create_projects_table.yaml

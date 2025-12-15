@@ -1,4 +1,4 @@
-package taskmanager.user.model;
+package taskmanager.project.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,20 +11,17 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "projects")
+public class Project {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
+    private String description;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String role = "USER";
+    private Long ownerId;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -33,9 +30,9 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public User(String name, String email, String role) {
+    public Project(String name, String description, Long ownerId) {
         this.name = name;
-        this.email = email;
-        this.role = role;
+        this.description = description;
+        this.ownerId = ownerId;
     }
 }

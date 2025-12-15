@@ -8,7 +8,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import taskmanager.common.event.UserCreatedEvent;
+import taskmanager.common.event.ProjectCreatedEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,17 +17,16 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, UserCreatedEvent> userCreatedProducerFactory() {
+    public ProducerFactory<String, ProjectCreatedEvent> projectCreatedProducerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
-    public KafkaTemplate<String, UserCreatedEvent> userCreatedKafkaTemplate() {
-        return new KafkaTemplate<>(userCreatedProducerFactory());
+    public KafkaTemplate<String, ProjectCreatedEvent> projectCreatedKafkaTemplate() {
+        return new KafkaTemplate<>(projectCreatedProducerFactory());
     }
 }

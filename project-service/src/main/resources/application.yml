@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8083
 
 spring:
   application:
-    name: task-service
+    name: project-service
   datasource:
     url: jdbc:postgresql://postgres:5432/taskmanager
     username: postgres
@@ -15,12 +15,14 @@ spring:
       show-sql: true
 
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    default-schema: public
 
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: task-service
+      group-id: project-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:

@@ -5,17 +5,20 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/taskmanager
+    url: jdbc:postgresql://postgres:5432/taskmanager
     username: postgres
-    password:
+    password: 9957
     driver-class-name: org.postgresql.Driver
     jpa:
       hibernate:
-        ddl-auto: update
+        ddl-auto: validate
       show-sql: true
 
+  liquibase:
+    enabled: false
+
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     consumer:
       group-id: user-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
