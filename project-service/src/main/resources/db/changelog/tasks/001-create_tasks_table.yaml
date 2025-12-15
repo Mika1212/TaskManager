@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: task_1
       author: ilyas
       changes:
         - createTable:
-            tableName: users
+            tableName: tasks
             columns:
               - column:
                   name: id
@@ -13,21 +13,20 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: name
+                  name: title
                   type: VARCHAR(255)
-                  constraints:
-                    nullable: false
               - column:
-                  name: email
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-                    unique: true
+                  name: description
+                  type: TEXT
               - column:
-                  name: role
+                  name: status
                   type: VARCHAR(50)
-                  constraints:
-                    nullable: false
+              - column:
+                  name: assignee_id
+                  type: BIGINT
+              - column:
+                  name: project_id
+                  type: BIGINT
               - column:
                   name: created_at
                   type: TIMESTAMP

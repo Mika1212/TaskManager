@@ -34,15 +34,21 @@ services:
     depends_on:
       - postgres
       - kafka
+    ports:
+      - "8081:8081"
 
   task-service:
     build: ./task-service
     depends_on:
       - postgres
       - kafka
+    ports:
+      - "8082:8082"
 
   project-service:
     build: ./project-service
     depends_on:
       - postgres
       - kafka
+    ports:
+      - "8083:8083"

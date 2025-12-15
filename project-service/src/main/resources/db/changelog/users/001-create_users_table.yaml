@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 3
+      id: user_1
       author: ilyas
       changes:
         - createTable:
-            tableName: projects
+            tableName: users
             columns:
               - column:
                   name: id
@@ -18,11 +18,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: description
-                  type: TEXT
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
               - column:
-                  name: owner_id
-                  type: BIGINT
+                  name: role
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
