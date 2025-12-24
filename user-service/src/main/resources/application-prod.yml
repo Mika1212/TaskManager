@@ -8,6 +8,6 @@ spring:
     show-sql: false
 
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
     default-schema: public

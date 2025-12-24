@@ -36,6 +36,10 @@ services:
       - kafka
     ports:
       - "${USER_SERVICE_PORT}:8081"
+    env_file:
+      - ./.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
 
   task-service:
     build: ./task-service
@@ -44,6 +48,10 @@ services:
       - kafka
     ports:
       - "${TASK_SERVICE_PORT}:8082"
+    env_file:
+      - ./.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
 
   project-service:
     build: ./project-service
@@ -52,3 +60,7 @@ services:
       - kafka
     ports:
       - "${PROJECT_SERVICE_PORT}:8083"
+    env_file:
+      - ./.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
