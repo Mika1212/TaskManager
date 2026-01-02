@@ -33,6 +33,9 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private String passwordHash;
+
     public User(String name, String email, String role) {
         this.name = name;
         this.email = email;

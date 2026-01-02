@@ -38,9 +38,6 @@ TaskManager/
 └─ settings.gradle.kts
 ```
 
-markdown
-Копировать код
-
 - **.env** — все переменные окружения для продакшн запуска.
 - **.env.dev** — переменные окружения для локальной разработки.
 - **docker-compose.yml** — поднимает Postgres, Kafka, Zookeeper и все сервисы в Docker.
@@ -159,7 +156,7 @@ Postgres: localhost:5432
 
 # Остановить все Docker-сервисы
 ```
-docker-compose down -v
+docker-compose down
 ```
 # Смотреть логи микросервиса
 ```
