@@ -2,6 +2,9 @@ server:
   port: ${USER_SERVICE_PORT}
 
 spring:
+  config:
+    activate:
+      on-profile: prod
   jpa:
     hibernate:
       ddl-auto: validate

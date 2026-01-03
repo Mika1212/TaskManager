@@ -5,7 +5,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
+      - "${ZOOKEEPER_CLIENT_PORT}:2181"
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -28,39 +28,3 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "${POSTGRES_PORT}:5432"
-
-  user-service:
-    build: ./user-service
-    depends_on:
-      - postgres
-      - kafka
-    ports:
-      - "${USER_SERVICE_PORT}:8081"
-    env_file:
-      - ./.env
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-
-  task-service:
-    build: ./task-service
-    depends_on:
-      - postgres
-      - kafka
-    ports:
-      - "${TASK_SERVICE_PORT}:8082"
-    env_file:
-      - ./.env
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-
-  project-service:
-    build: ./project-service
-    depends_on:
-      - postgres
-      - kafka
-    ports:
-      - "${PROJECT_SERVICE_PORT}:8083"
-    env_file:
-      - ./.env
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
