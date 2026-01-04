@@ -9,15 +9,25 @@ import taskmanager.common.event.ProjectCreatedEvent;
 @Configuration
 public class ProjectKafkaConsumerConfig extends AbstractKafkaConsumerConfig {
 
-    @Bean
-    public ConsumerFactory<String, ProjectCreatedEvent> projectCreatedConsumerFactory() {
-        return createConsumerFactory("task-service", "taskmanager.common.event.ProjectCreatedEvent");
+    public ProjectKafkaConsumerConfig(KafkaProperties kafkaProperties) {
+        super(kafkaProperties);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectCreatedEvent> projectCreatedKafkaListenerContainerFactory() {
+    public ConsumerFactory<String, ProjectCreatedEvent> projectCreatedConsumerFactory() {
+        return createConsumerFactory(
+                "project-created-group",
+                ProjectCreatedEvent.class
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProjectCreatedEvent>
+    projectCreatedKafkaListenerContainerFactory() {
+
         ConcurrentKafkaListenerContainerFactory<String, ProjectCreatedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
+
         factory.setConsumerFactory(projectCreatedConsumerFactory());
         return factory;
     }
