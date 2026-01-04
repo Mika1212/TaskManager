@@ -3,8 +3,9 @@ package taskmanager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import taskmanager.config.KafkaProperties;
 
-@ConfigurationPropertiesScan
 @SpringBootApplication
 public class TaskServiceApplication  {
 

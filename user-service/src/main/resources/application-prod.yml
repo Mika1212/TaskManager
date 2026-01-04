@@ -1,10 +1,17 @@
-server:
-  port: ${USER_SERVICE_PORT}
-
 spring:
   config:
     activate:
       on-profile: prod
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -12,5 +19,6 @@ spring:
 
   liquibase:
     enabled: false
-    change-log: classpath:db/changelog/db.changelog-master.yaml
-    default-schema: public
+
+server:
+  port: ${USER_SERVICE_PORT}

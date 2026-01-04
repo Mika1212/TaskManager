@@ -10,6 +10,13 @@ spring:
       ddl-auto: validate
     show-sql: false
 
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    kafka:
+      bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
+
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml

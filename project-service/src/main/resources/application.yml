@@ -1,13 +1,7 @@
 spring:
   application:
     name: project-service
-  datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}:${KAFKA_PORT}
     consumer:
       group-id: project-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer

@@ -71,20 +71,19 @@ PROJECT_SERVICE_PORT=8083
 Эти переменные используются как для Docker, так и для локального запуска через Gradle.
 
 2️⃣ Локальная разработка
-Backend (микросервисы)
 Поднять Postgres и Kafka через Docker:
 
-
-docker-compose up -d postgres kafka zookeeper
+docker compose --env-file .env.dev up
 
 Запустить микросервисы через Gradle:
 
 ```
 # В корне проекта
-./gradlew :user-service:bootRun --args="--spring.profiles.active=dev"
-./gradlew :task-service:bootRun --args="--spring.profiles.active=dev"
-./gradlew :project-service:bootRun --args="--spring.profiles.active=dev"
+$env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew :user-service:bootRun
+$env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew :task-service:bootRun
+$env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew :project-service:bootRun
 ```
+ 
 Или единым таском:
 
 ```
@@ -127,7 +126,7 @@ API микросервисов доступны по портам из .env.dev 
 Поднять все контейнеры:
 
 ```
-docker-compose up -d --build
+docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env.prod up -d
 ```
 Профиль Spring: prod (SPRING_PROFILES_ACTIVE=prod).
 
