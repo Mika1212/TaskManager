@@ -1,6 +1,7 @@
 package taskmanager.user.service;
 
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import taskmanager.user.dto.CreateUserRequest;
 import taskmanager.user.dto.UserResponse;
@@ -16,10 +17,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final KafkaTemplate<String, UserCreatedEvent> kafkaTemplate;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, KafkaTemplate<String, UserCreatedEvent> kafkaTemplate) {
+    public UserService(UserRepository userRepository,
+                       KafkaTemplate<String, UserCreatedEvent> kafkaTemplate,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.kafkaTemplate = kafkaTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponse createUser(CreateUserRequest request) {
@@ -28,8 +33,9 @@ public class UserService {
         }
 
         String role = request.getRole() != null ? request.getRole() : "USER";
+        String hashedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = new User(request.getName(), request.getEmail(), role);
+        User user = new User(request.getName(), request.getEmail(), role, hashedPassword);
         User saved = userRepository.save(user);
 
         UserCreatedEvent event = new UserCreatedEvent(saved.getId(), saved.getName(), saved.getEmail(), saved.getRole());
