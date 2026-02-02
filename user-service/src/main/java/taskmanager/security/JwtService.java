@@ -7,26 +7,29 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 import taskmanager.user.model.User;
 
+import java.security.Key;
 import java.util.Date;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET = "very-secret-key-change-me";
+    private static final String SECRET = "this_is_a_very_long_secret_key_with_at_least_32_bytes";
+    private static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private static final long EXPIRATION_MS = 86400000L; // 1 день
 
     public String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getId().toString())
                 .claim("email", user.getEmail())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
+                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Claims parse(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes())
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

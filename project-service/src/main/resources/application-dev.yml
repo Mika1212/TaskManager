@@ -10,6 +10,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/taskmanager
     username: postgres
     password: 9957
+    driver-class-name: org.postgresql.Driver
 
   kafka:
     bootstrap-servers: localhost:9092

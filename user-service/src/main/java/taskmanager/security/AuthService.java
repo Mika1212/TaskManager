@@ -32,4 +32,18 @@ public class AuthService {
 
         return jwtService.generateToken(user);
     }
+
+    public String register(String email, String password) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPasswordHash(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        return jwtService.generateToken(user);
+    }
 }
+
