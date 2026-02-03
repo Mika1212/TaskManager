@@ -10,11 +10,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class LoginController {
+public class AuthController {
 
     private final AuthService authService;
 
-    public LoginController(AuthService authService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 

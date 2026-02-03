@@ -35,7 +35,12 @@ public class UserService {
         String role = request.getRole() != null ? request.getRole() : "USER";
         String hashedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = new User(request.getName(), request.getEmail(), role, hashedPassword);
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .role(role)
+                .passwordHash(hashedPassword)
+                .build();
         User saved = userRepository.save(user);
 
         UserCreatedEvent event = new UserCreatedEvent(saved.getId(), saved.getName(), saved.getEmail(), saved.getRole());
