@@ -32,8 +32,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+
             try {
-                String token = header.substring(7);
                 Claims claims = jwtService.parse(token);
 
                 UsernamePasswordAuthenticationToken auth =
@@ -45,8 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+                SecurityContextHolder.clearContext();
             }
         }
 

@@ -1,7 +1,10 @@
 package taskmanager.user.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import taskmanager.security.AuthService;
 import taskmanager.user.dto.LoginRequest;
 import taskmanager.user.dto.CreateUserRequest;
@@ -28,5 +31,16 @@ public class AuthController {
     public Map<String, String> register(@RequestBody @Valid CreateUserRequest request) {
         String token = authService.register(request);
         return Map.of("token", token);
+    }
+
+    @GetMapping("/me")
+    public Map<String, Object> me(Authentication authentication) {
+        if (authentication == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        return Map.of(
+                "userId", authentication.getPrincipal()
+        );
     }
 }

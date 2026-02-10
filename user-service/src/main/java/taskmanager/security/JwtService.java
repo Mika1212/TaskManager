@@ -15,7 +15,7 @@ public class JwtService {
 
     private static final String SECRET = "this_is_a_very_long_secret_key_with_at_least_32_bytes";
     private static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
-    private static final long EXPIRATION_MS = 86400000L; // 1 день
+    private static final long EXPIRATION_MS = 86400000L * 30; // 30 дней
 
     public String generateToken(User user) {
         return Jwts.builder()
