@@ -9,6 +9,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    stop_grace_period: 30s
     depends_on:
       - zookeeper
     ports:
