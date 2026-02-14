@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .login-card h1 {
@@ -26,6 +27,12 @@
     border-radius: 8px;
     border: 1px solid #ddd;
     font-size: 14px;
+    transition: border 0.2s ease;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: #667eea;
 }
 
 .login-card button {
@@ -36,6 +43,11 @@
     color: white;
     font-weight: bold;
     cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.login-card button:hover {
+    background: #5563d1;
 }
 
 .login-card button:disabled {
@@ -47,4 +59,19 @@
     color: #e53e3e;
     font-size: 14px;
     text-align: center;
+}
+
+.auth-link {
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
 }

@@ -1,10 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthForm from './pages/auth/AuthForm';
 import ProtectedRoute from './components/ProtectedRoute';
-
-function Home() {
-    return <h1>App</h1>;
-}
+import Home from './pages/Home/Home.jsx';
 
 function App() {
     return (
