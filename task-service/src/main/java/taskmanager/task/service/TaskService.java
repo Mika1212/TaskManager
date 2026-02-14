@@ -28,7 +28,7 @@ public class TaskService {
         Task saved = taskRepository.save(task);
 
         TaskCreatedEvent event = new TaskCreatedEvent(saved.getId(), saved.getAssigneeId(), saved.getStatus(), saved.getProjectId());
-        kafkaTemplate.send("task_created", event);
+        kafkaTemplate.send("task.created", event);
 
         return new TaskResponse(saved.getId(), saved.getTitle(), saved.getDescription(), saved.getStatus(), saved.getAssigneeId());
     }

@@ -12,6 +12,7 @@
 docker-compose up -d postgres kafka zookeeper
 ```
 
+Пока не работает
 # 2️⃣ Запустить все микросервисы через Gradle
 ```
 ./gradlew runAll
@@ -48,7 +49,7 @@ TaskManager/
 
 ## 1️⃣ Настройка переменных окружения
 
-Создай `.env.dev` в корне проекта:
+Создать `.env.dev` в корне проекта:
 
 ```env
 # === Postgres ===
@@ -75,6 +76,9 @@ PROJECT_SERVICE_PORT=8083
 
 docker compose --env-file .env.dev up
 
+Все микросервисы локально запускать через IDE
+
+Не работает
 Запустить микросервисы через Gradle:
 
 ```
@@ -86,6 +90,7 @@ $env:SPRING_PROFILES_ACTIVE="dev"; ./gradlew :project-service:bootRun
  
 Или единым таском:
 
+Не работает
 ```
 ./gradlew runAll
 Профиль dev использует application-dev.yml.

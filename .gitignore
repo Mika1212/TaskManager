@@ -37,4 +37,7 @@ out/
 .vscode/
 
 lib/
+
+### frontend ###
 node_modules/
+frontend/.vite/deps
