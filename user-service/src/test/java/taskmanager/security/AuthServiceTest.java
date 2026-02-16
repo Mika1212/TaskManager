@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import taskmanager.exception.InvalidCredentialsException;
+import taskmanager.exception.UserNotFoundAfterCreationException;
 import taskmanager.user.dto.CreateUserRequest;
 import taskmanager.user.dto.LoginRequest;
 import taskmanager.user.dto.UserResponse;
@@ -96,7 +97,7 @@ class AuthServiceTest {
 
     @Test
     void shouldRegisterUserAndReturnToken() {
-        String email = "new@example.com";
+        String email = "test@example.com";
 
         CreateUserRequest request = CreateUserRequest.builder()
                 .name("John")
@@ -123,4 +124,28 @@ class AuthServiceTest {
 
         assertThat(token).isEqualTo("jwt-token");
     }
+
+    @Test
+    void shouldThrowExceptionWhenUserNotFoundAfterCreation() {
+        String email = "new@example.com";
+
+        CreateUserRequest request = CreateUserRequest.builder()
+                .name("John")
+                .email(email)
+                .password("password")
+                .role("USER")
+                .build();
+
+        UserResponse response = new UserResponse();
+        response.setEmail(email);
+
+        when(userService.createUser(request)).thenReturn(response);
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> authService.register(request))
+                .isInstanceOf(UserNotFoundAfterCreationException.class)
+                .hasMessageContaining(email);
+    }
+
 }

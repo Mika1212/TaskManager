@@ -36,6 +36,8 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 
+    testImplementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("com.h2database:h2")
 }
