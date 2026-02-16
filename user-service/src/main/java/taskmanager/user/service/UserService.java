@@ -3,9 +3,10 @@ package taskmanager.user.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import taskmanager.common.event.UserCreatedEvent;
+import taskmanager.exception.UserAlreadyExistsException;
 import taskmanager.user.dto.CreateUserRequest;
 import taskmanager.user.dto.UserResponse;
-import taskmanager.common.event.UserCreatedEvent;
 import taskmanager.user.model.User;
 import taskmanager.user.repository.UserRepository;
 
@@ -29,7 +30,7 @@ public class UserService {
 
     public UserResponse createUser(CreateUserRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("User with email " + request.getEmail() + " already exists");
+            throw new UserAlreadyExistsException(request.getEmail());
         }
 
         String role = request.getRole() != null ? request.getRole() : "USER";

@@ -2,6 +2,8 @@ package taskmanager.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import taskmanager.exception.InvalidCredentialsException;
+import taskmanager.exception.UserNotFoundAfterCreationException;
 import taskmanager.user.dto.CreateUserRequest;
 import taskmanager.user.dto.LoginRequest;
 import taskmanager.user.dto.UserResponse;
@@ -30,10 +32,10 @@ public class AuthService {
 
     public String login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.email())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordEncoder.matches(loginRequest.password(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
 
         return jwtService.generateToken(user);
@@ -43,7 +45,7 @@ public class AuthService {
         UserResponse userResponse = userService.createUser(request);
 
         User user = userRepository.findByEmail(userResponse.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found after creation"));
+                .orElseThrow(() -> new UserNotFoundAfterCreationException(userResponse.getEmail()));
 
         return jwtService.generateToken(user);
     }
