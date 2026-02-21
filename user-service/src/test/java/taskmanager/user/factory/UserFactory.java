@@ -1,8 +1,10 @@
 package taskmanager.user.factory;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import taskmanager.user.model.User;
 
+@Component
 public class UserFactory {
 
     private final PasswordEncoder passwordEncoder;
@@ -16,20 +18,16 @@ public class UserFactory {
                 .name("John")
                 .email("default@example.com")
                 .role("USER")
-                .passwordHash("$2a$10$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                .passwordHash(passwordEncoder.encode("123456"))
                 .build();
     }
 
-    public User createWithEmail(String email) {
-        User user = createDefault();
-        user.setEmail(email);
-        return user;
-    }
-
     public User createWithEmailAndPassword(String email, String password) {
-        User user = createDefault();
-        user.setEmail(email);
-        user.setPasswordHash(passwordEncoder.encode(password));
-        return user;
+        return User.builder()
+                .name("John")
+                .email(email)
+                .role("USER")
+                .passwordHash(passwordEncoder.encode(password))
+                .build();
     }
 }
