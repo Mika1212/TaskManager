@@ -47,13 +47,6 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, "email", ex.getMessage());
     }
 
-    @ExceptionHandler(UserNotFoundAfterCreationException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundAfterCreation(
-            UserNotFoundAfterCreationException ex
-    ) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, null, ex.getMessage());
-    }
-
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorized(
             UnauthorizedException ex

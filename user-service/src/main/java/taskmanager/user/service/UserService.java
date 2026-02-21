@@ -28,7 +28,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse createUser(CreateUserRequest request) {
+    public User createUser(CreateUserRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(request.getEmail());
         }
@@ -47,7 +47,7 @@ public class UserService {
         UserCreatedEvent event = new UserCreatedEvent(saved.getId(), saved.getName(), saved.getEmail(), saved.getRole());
         kafkaTemplate.send("user.created", event);
 
-        return new UserResponse(saved.getId(), saved.getName(), saved.getEmail(), saved.getRole());
+        return saved;
     }
 
     public List<UserResponse> getAll() {

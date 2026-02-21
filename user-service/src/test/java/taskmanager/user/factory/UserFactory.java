@@ -22,15 +22,6 @@ public class UserFactory {
                 .build();
     }
 
-    public User createCustom(String name, String email, String password) {
-        return User.builder()
-                .name(name)
-                .email(email)
-                .role("USER")
-                .passwordHash(passwordEncoder.encode(password))
-                .build();
-    }
-
     public User createWithEmailAndPassword(String email, String password) {
         return User.builder()
                 .name("John")

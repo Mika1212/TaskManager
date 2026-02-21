@@ -122,12 +122,23 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void register_ShouldFail_WhenPasswordTooShort() throws Exception {
-        performRegister("John", "test2@mail.com", "123")
+    void register_ShouldFail_WhenEmailIsBlank() throws Exception {
+        performRegister("John", "", DEFAULT_PASSWORD)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors[*].field").value(hasItem("email")))
+                .andExpect(jsonPath("$.errors[*].message").value(hasItem("Email is required")));
+    }
+
+    @Test
+    void register_ShouldFail_WhenPasswordIsInvalid() throws Exception {
+        performRegister("John", "test@mail.com", "")
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors[*].field").value(hasItem("password")))
                 .andExpect(jsonPath("$.errors[*].message")
-                        .value(hasItem("Password must be at least 6 characters")));
+                        .value(hasItem("Password must be at least 6 characters")))
+                .andExpect(jsonPath("$.errors[*].message")
+                        .value(hasItem("Password is required")));
     }
 
     @Test
@@ -174,6 +185,37 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
+    void login_ShouldFail_WhenEmailIsBlank() throws Exception {
+        performLogin("", DEFAULT_PASSWORD)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].field").value(hasItem("email")))
+                .andExpect(jsonPath("$.errors[*].message")
+                        .value(hasItem("Email is required")));
+    }
+
+    @Test
+    void login_ShouldFail_WhenEmailIsInvalid() throws Exception {
+        String email = "not.an.email";
+
+        performLogin(email, DEFAULT_PASSWORD)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].field").value(hasItem("email")))
+                .andExpect(jsonPath("$.errors[*].message")
+                        .value(hasItem("Email must be valid")));
+    }
+
+    @Test
+    void login_ShouldFail_WhenPasswordIsInvalid() throws Exception {
+        performLogin("login@mail.com", "")
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[*].field").value(hasItem("password")))
+                .andExpect(jsonPath("$.errors[*].message")
+                        .value(hasItem("Password is required")))
+                .andExpect(jsonPath("$.errors[*].message")
+                        .value(hasItem("Password must be at least 6 characters")));
+    }
+
+    @Test
     void login_ShouldFail_WhenUserNotExists() throws Exception {
         performLogin("nouser@mail.com", DEFAULT_PASSWORD)
                 .andExpect(status().isUnauthorized())
@@ -205,7 +247,7 @@ class AuthControllerIntegrationTest {
 
     @Test
     void me_ShouldFail_WhenTokenInvalid() throws Exception {
-        performGetMe("invalid.token.here")
+        performGetMe("invalid.token")
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.errors[*].field").doesNotExist())
                 .andExpect(jsonPath("$.errors[*].message")

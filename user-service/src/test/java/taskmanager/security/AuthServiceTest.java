@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import taskmanager.exception.InvalidCredentialsException;
-import taskmanager.exception.UserNotFoundAfterCreationException;
 import taskmanager.user.dto.CreateUserRequest;
 import taskmanager.user.dto.LoginRequest;
 import taskmanager.user.dto.UserResponse;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
@@ -93,41 +92,13 @@ class AuthServiceTest {
 
         assertThatThrownBy(() -> authService.login(request))
                 .isInstanceOf(InvalidCredentialsException.class);
+
+        verify(jwtService, never()).generateToken(any());
     }
 
     @Test
     void shouldRegisterUserAndReturnToken() {
         String email = "test@example.com";
-
-        CreateUserRequest request = CreateUserRequest.builder()
-                .name("John")
-                .email("test@example.com")
-                .password("password")
-                .role("USER")
-                .build();
-
-        UserResponse response = new UserResponse();
-        response.setEmail(email);
-
-        User user = UserTestFactory.withEmail(email);
-
-        when(userService.createUser(request))
-                .thenReturn(response);
-
-        when(userRepository.findByEmail(email))
-                .thenReturn(Optional.of(user));
-
-        when(jwtService.generateToken(user))
-                .thenReturn("jwt-token");
-
-        String token = authService.register(request);
-
-        assertThat(token).isEqualTo("jwt-token");
-    }
-
-    @Test
-    void shouldThrowExceptionWhenUserNotFoundAfterCreation() {
-        String email = "new@example.com";
 
         CreateUserRequest request = CreateUserRequest.builder()
                 .name("John")
@@ -139,13 +110,18 @@ class AuthServiceTest {
         UserResponse response = new UserResponse();
         response.setEmail(email);
 
-        when(userService.createUser(request)).thenReturn(response);
+        User user = UserTestFactory.withEmail(email);
 
-        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(userService.createUser(request))
+                .thenReturn(user);
 
-        assertThatThrownBy(() -> authService.register(request))
-                .isInstanceOf(UserNotFoundAfterCreationException.class)
-                .hasMessageContaining(email);
+        when(jwtService.generateToken(user))
+                .thenReturn("jwt-token");
+
+        String token = authService.register(request);
+
+        assertThat(token).isEqualTo("jwt-token");
+
+        verify(userService).createUser(request);
     }
-
 }
